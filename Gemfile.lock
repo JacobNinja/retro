@@ -1,0 +1,12 @@
+GEM
+  remote: http://rubygems.org/
+  specs:
+    eventmachine (0.12.10)
+    test-unit (2.5.1)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  eventmachine
+  test-unit

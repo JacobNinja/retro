@@ -54,9 +54,8 @@ module Retro
 
       def encipher(str)
         hex = %w(0 1 2 3 4 5 6 7 8 9 A B C D E F)
-        str.each_char.map do |char|
-          k = mix_table
-          c = char.ord & 0xff ^ k
+        str.each_byte.map do |byte|
+          c = byte & 0xff ^ mix_table
           if c > 0
             hex[(c >> 4 & 0xf)] + hex[c & 0xf]
           else

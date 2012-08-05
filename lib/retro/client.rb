@@ -20,8 +20,6 @@ module Retro
       p handshake
       send_data "@EFQ"
       public_key = socket.recv 250
-      encryption_begin = socket.recv 250
-      p encryption_begin
       p public_key
       @encryption = Encryption::RC4.new("55wfe030o2b17933arq9512j5u111105ckp230c81rp3m61ew9er3y0d523")
       send_data "@F@P6CE0541185445713"

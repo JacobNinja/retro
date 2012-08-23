@@ -5,8 +5,8 @@ module Retro
 
       attr_reader :data
 
-      def initialize(user, data)
-        @user = user
+      def initialize(session, data)
+        @session = session
         @data = data
       end
 
@@ -20,6 +20,10 @@ module Retro
 
       def body
         self.class.instance_variable_get("@body")
+      end
+
+      def user
+        @session.user
       end
 
       def private_room_response(hide_full)

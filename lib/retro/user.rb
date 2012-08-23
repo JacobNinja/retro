@@ -2,20 +2,20 @@ module Retro
 
   class User
 
-    def decrypt(data)
-      if @encryption
-        @encryption.decipher(data)
-      else
-        data
-      end
+    attr_reader :name, :figure, :sex, :custom_data, :ph_tickets, :photo_film, :direct_mail
+
+    def initialize(opts={})
+      @name = opts[:name]
+      @figure = opts[:figure]
+      @sex = opts[:sex]
+      @custom_data = opts[:custom_data]
+      @ph_tickets = opts[:ph_tickets]
+      @photo_film = opts[:photo_film]
+      @direct_mail = opts[:direct_mail]
     end
 
     def greeting
       ClientMessage.new(:greeting)
-    end
-
-    def initialize_encryption(public_key)
-      @encryption = Retro::Encryption::RC4.new(public_key)
     end
 
   end

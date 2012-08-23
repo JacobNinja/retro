@@ -6,22 +6,22 @@ module Retro
 
     module Reactor
 
-      @@connections = {}
+      @@sessions = {}
 
       def post_init
-        user = Retro::User.new
-        @@connections[self.object_id] = user
-        send_response(user.greeting)
+        session = Session.new(self)
+        @@sessions[self.object_id] = session
+        send_response(Handlers::Greeting.new(session, "").call)
       end
 
       def receive_data(data)
-        user = @@connections[self.object_id]
-        decrypted_data = user.decrypt(data)
+        session = @@sessions[self.object_id]
+        decrypted_data = session.decrypt(data)
         parse_packet(decrypted_data) do |header, body|
           encoded_header = Encoding::Base64.encode(header)
-          p "Incoming => header: [#{encoded_header}, #{header}], body: #{body}, decoded: #{decrypted_data}"
           handler = Handlers::SERVER_HEADERS[header] || Handlers.null(header)
-          responses = handler.new(user, body).call
+          p "Incoming => header: [#{encoded_header}, #{header}], handler: #{handler}, body: #{body}, decoded: #{decrypted_data}"
+          responses = handler.new(session, body).call
           Array(responses).each &method(:send_response)
         end
       end

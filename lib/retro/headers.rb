@@ -16,7 +16,11 @@ module Retro
         62 => Objects, # @~
         63 => Items, # @\x7F
         64 => GStat, # A@
+        65 => Hand, # AA
+        75 => Move, # AK
+        79 => LookTo, # AO
         88 => Stop, # AX
+        90 => PlaceStuff, # AZ
         115 => GoAway, # As
         126 => RoomAd, # A~
         157 => Badges, # B]
@@ -28,6 +32,7 @@ module Retro
         18 => FavoriteRooms, # @R
         21 => RoomInfo, # @U
         182 => GetInterest, # Bv
+        202 => GenerateKey, # CJ
     }
 
     CLIENT_HEADERS = {

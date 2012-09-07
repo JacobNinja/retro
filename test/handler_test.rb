@@ -15,4 +15,9 @@ class HandlerTest < Test::Unit::TestCase
     assert_equal "test", result.body
   end
 
+  test "wraps data in server message" do
+    sut = Retro::Handlers::Handler.new(stub, "data")
+    assert_instance_of Retro::ServerMessage, sut.data
+  end
+
 end

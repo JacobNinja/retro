@@ -14,10 +14,10 @@ module Retro
 
     def header
       case @header
-        when Integer then Encoding::Base64.encode(@header)
+        when Integer then Encoding::B64.encode(@header)
         when Symbol then
           header_int = Handlers::CLIENT_HEADERS[@header]
-          Encoding::Base64.encode(header_int)
+          Encoding::B64.encode(header_int)
         when String then @header
         else nil
       end

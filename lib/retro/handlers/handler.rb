@@ -7,7 +7,7 @@ module Retro
 
       def initialize(session, data)
         @session = session
-        @data = data
+        @data = ServerMessage.new(data)
       end
 
       def call

@@ -1,0 +1,3 @@
+#! /usr/bin/env sh
+
+sequel -I'./database' -rconnection -m database/migrations/

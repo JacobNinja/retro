@@ -4,9 +4,8 @@ module Retro
     class Navigate < Handler
 
       def call
-        hide_full = Encoding::VL64.decode(data[0, 1])
-        rest = data[1..-1]
-        category_id = Encoding::VL64.decode(rest[0, rest.length - 1])
+        hide_full = data.pop_vl64
+        category_id = Encoding::VL64.decode(data.rest[0, data.rest.length - 1])
         response = ClientMessage.new("C\\")
         public_category_1 = RoomCategory.new(id: 3, type: 0, name: "Category 1", parent: 0)
         public_category_2 = RoomCategory.new(id: 4, type: 0, name: "Category 2", parent: 0)

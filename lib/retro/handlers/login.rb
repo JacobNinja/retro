@@ -4,13 +4,23 @@ module Retro
     class Login < Handler
 
       def call
-        username_length = Encoding::Base64.decode(@data[0..1])
-        username = data[2, username_length]
-        @session.user = User.new(name: username, figure: "1150120723280013050122525", sex: "M", custom_data: "mission", ph_tickets: 0, photo_film: 0, direct_mail: 0)
-        [
-            ClientMessage.new(:rights, "fuse_login"),
-            ClientMessage.new(:login_ok),
-        ]
+        username = @data.pop_b64
+        password = @data.pop_b64
+        user = get_authenticated_user(username, password)
+        if user
+          @session.user = user
+          [
+              ClientMessage.new(:rights, "fuse_login"),
+              ClientMessage.new(:login_ok),
+          ]
+        else
+          ClientMessage.new("@c", "FUCK YOU!!!")
+        end
+      end
+
+      def get_authenticated_user(username, password)
+        user_record = DB[:users].first(name: username, password: password)
+        User.new user_record if user_record
       end
 
     end

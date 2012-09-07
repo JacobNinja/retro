@@ -4,7 +4,7 @@ module Retro
     def self.null(header_int)
       Class.new(Handler) do
         def call
-          encoded_header = Encoding::Base64.encode(header_int)
+          encoded_header = Encoding::B64.encode(header_int)
           p "No mapping found for #{encoded_header}, #{header_int}"
           nil
         end

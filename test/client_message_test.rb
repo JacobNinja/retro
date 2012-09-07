@@ -4,12 +4,12 @@ class ClientMessageTest < Test::Unit::TestCase
 
   test "#header encodes integer to b64" do
     sut = Retro::ClientMessage.new(1)
-    assert_equal Retro::Encoding::Base64.encode(1), sut.header
+    assert_equal Retro::Encoding::B64.encode(1), sut.header
   end
 
   test "#header encodes symbol to b64 if mapping exists" do
     sut = Retro::ClientMessage.new(:public_key)
-    encoded_header = Retro::Encoding::Base64.encode(Retro::Handlers::CLIENT_HEADERS[:public_key])
+    encoded_header = Retro::Encoding::B64.encode(Retro::Handlers::CLIENT_HEADERS[:public_key])
     assert_equal encoded_header, sut.header
   end
 

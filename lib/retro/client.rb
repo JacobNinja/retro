@@ -37,7 +37,7 @@ module Retro
     end
 
     def send_data(data)
-      response = Encoding::Base64.encode(data.length) + data
+      response = Encoding::B64.encode(data.length) + data
       p "Outgoing => response: #{response}"
       socket.write encrypt("@#{response}")
     end

@@ -4,7 +4,7 @@ module Retro
     class Chat < Handler
 
       def call
-        message_length = Encoding::Base64.decode(data[0..1])
+        message_length = Encoding::B64.decode(data[0..1])
         user_id = 0
         message = data.slice(2, message_length)
         if message.start_with? ":client"

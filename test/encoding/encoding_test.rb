@@ -5,7 +5,7 @@ class Base64EncodingTest < Test::Unit::TestCase
   attr_reader :sut
 
   def setup
-    @sut = Retro::Encoding::Base64
+    @sut = Retro::Encoding::B64
   end
 
   test "#encode" do

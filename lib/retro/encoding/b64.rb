@@ -2,7 +2,7 @@ module Retro
 
   module Encoding
 
-    class Base64
+    class B64
 
       def self.encode(len)
         (1..2).map do |idx|

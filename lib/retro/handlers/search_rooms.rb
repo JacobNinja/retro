@@ -13,7 +13,7 @@ module Retro
         [
             room.id.to_s,
             room.name,
-            room.owner,
+            "-",
             "open",
             "x",
             "0",

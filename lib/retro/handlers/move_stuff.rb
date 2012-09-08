@@ -1,21 +1,16 @@
 module Retro
   module Handlers
 
-    class PlaceStuff < Handler
+    class MoveStuff < Handler
 
       def call
-        item_id, x, y = data.rest.split(" ")
-        Item.find_by_id(item_id) do |item|
-          if item.wall_item?
-            # ummm...
-          else
-            item.set_position(user.current_room.id, x, y)
-            ClientMessage.new("A]", floor_response(item, x, y))
-          end
+        id, x, y, rotation = data.rest.split(" ")
+        Item.find_by_id(id) do |item|
+          ClientMessage.new("A_", floor_response(item, x, y, rotation))
         end
       end
 
-      def floor_response(item, x, y, z=0)
+      def floor_response(item, x, y, rotation, z=0)
         [
           item.id,
           2.chr,
@@ -25,7 +20,7 @@ module Retro
           Encoding::VL64.encode(y.to_i),
           Encoding::VL64.encode(item.width),
           Encoding::VL64.encode(item.length),
-          Encoding::VL64.encode(item.rotation),
+          Encoding::VL64.encode(rotation.to_i),
           z,
           2.chr,
           item.col,

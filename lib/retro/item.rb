@@ -28,6 +28,28 @@ module Retro
       !room_id.nil?
     end
 
+    def set_position(room_id, x, y)
+      update_room(room_id, x, y)
+      @room_id = room_id
+      @x = x
+      @y = y
+    end
+
+    def reset_room
+      update_room(nil, nil, nil)
+      @room_id = nil
+      @x = nil
+      @y = nil
+    end
+
+    def update_room(room_id, x, y)
+      DB[:items].where(:id => self.id).update(room_id: room_id, x: x, y: y)
+    end
+
+    def self.floor_items_in_room(room_id)
+      DB[:items].filter(room_id: room_id).map {|data| new(data) }.reject &:wall_item?
+    end
+
     def self.find_by_id(id)
       data = DB[:items].first(:id => id)
       if data

@@ -17,6 +17,8 @@ module Retro
         63 => Items, # @\x7F
         64 => GStat, # A@
         65 => Hand, # AA
+        67 => Pickup, # AC
+        73 => MoveStuff, # AI
         75 => Move, # AK
         79 => LookTo, # AO
         88 => Stop, # AX

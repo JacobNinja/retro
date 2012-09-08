@@ -3,7 +3,10 @@ module Retro
 
     class GoAway < Handler
 
-      @header = "@R"
+      def call
+        user.states.clear
+        ClientMessage.new("@R")
+      end
 
     end
 

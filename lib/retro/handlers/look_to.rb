@@ -4,7 +4,10 @@ module Retro
     class LookTo < Handler
 
       def call
-        ClientMessage.new("@b", "0 3,5,0.0,2,2/" + 13.chr)
+        body_movement, head_movement = data.rest.split(" ")
+        user.body_direction = body_movement
+        user.head_direction = head_movement
+        Client::MessageFactory.room_movement(user)
       end
 
     end

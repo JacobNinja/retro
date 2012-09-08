@@ -4,8 +4,8 @@ module Retro
     class Login < Handler
 
       def call
-        username = @data.pop_b64
-        password = @data.pop_b64
+        username = @data.pop_b64!
+        password = @data.pop_b64!
         user = get_authenticated_user(username, password)
         if user
           @session.user = user

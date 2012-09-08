@@ -11,6 +11,14 @@ module Retro
       @parent = opts[:parent]
     end
 
+    def guest?
+      type == 2
+    end
+
+    def rooms
+      Room.by_category(id)
+    end
+
   end
 
 end

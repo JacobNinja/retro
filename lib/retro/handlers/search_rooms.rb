@@ -5,9 +5,23 @@ module Retro
 
       def call
         # @y = no results
-        flat = Flat.new(room_id: 123, name: "RoomName", owner: "somebody", max_guests: 25, description: "test")
-        flat_response = [flat.room_id.to_s, flat.name, flat.owner, "open", "x", "0", flat.max_guests.to_s, "null", flat.description, "\r"]
+        flat_response = user.rooms.map &method(:search_response)
         ClientMessage.new("@P", flat_response.join(9.chr))
+      end
+
+      def search_response(room)
+        [
+            room.id.to_s,
+            room.name,
+            room.owner,
+            "open",
+            "x",
+            "0",
+            room.max_guests.to_s,
+            "null",
+            room.description,
+            "\r"
+        ]
       end
 
     end

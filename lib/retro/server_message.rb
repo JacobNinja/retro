@@ -7,9 +7,13 @@ module Retro
       @data = data.dup
     end
 
+    def pop_b64!
+      @data.slice! 0, pop_b64
+    end
+
     def pop_b64
       encoded_length = @data.slice! 0, 2
-      @data.slice! 0, Encoding::B64.decode(encoded_length)
+      Encoding::B64.decode(encoded_length)
     end
 
     def pop_vl64

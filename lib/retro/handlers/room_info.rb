@@ -4,21 +4,24 @@ module Retro
     class RoomInfo < Handler
 
       def call
-        room_id = data.to_i
-        response = []
-        response << Encoding::VL64.encode(0) # super users ?
-        response << Encoding::VL64.encode(1) # room state
-        response << Encoding::VL64.encode(room_id) # room id
-        response << "-" # room owner
-        response << 2.chr
-        response << "model_a" + 2.chr
-        response << "room name" + 2.chr
-        response << "room description" + 2.chr
-        response << Encoding::VL64.encode(0) # show owner
-        response << Encoding::VL64.encode(0) # can trade
-        response << Encoding::VL64.encode(5) # user count
-        response << Encoding::VL64.encode(25) # max users
-        ClientMessage.new("@v", response.join)
+        room_id = data.rest.to_i
+        Room.find_by_id(room_id) do |room|
+          response = [
+            Encoding::VL64.encode(0), # super users ?
+            Encoding::VL64.encode(1), # room state
+            Encoding::VL64.encode(room.id), # room id
+            "-", # room owner
+            2.chr,
+            room.model + 2.chr,
+            room.name + 2.chr,
+            room.description + 2.chr,
+            Encoding::VL64.encode(0), # show owner
+            Encoding::VL64.encode(0), # can trade
+            Encoding::VL64.encode(5), # user count
+            Encoding::VL64.encode(room.max_guests), # max users
+          ]
+          ClientMessage.new("@v", response.join)
+        end
       end
 
     end

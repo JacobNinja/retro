@@ -4,8 +4,8 @@ module Retro
     class Move < Handler
 
       def call
-        x = Encoding::B64.decode(@data[0..1])
-        y = Encoding::B64.decode(@data[2..-1])
+        x = data.pop_b64
+        y = data.pop_b64
         ClientMessage.new("@b", "0 #{x},#{y},0.0,2,2/\r")
       end
 

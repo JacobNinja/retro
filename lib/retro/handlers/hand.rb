@@ -4,11 +4,13 @@ module Retro
     class Hand < Handler
 
       def call
-        furni = Item.new(id: 1, hand_type: "S", sprite: "test", width: 1, length: 1, col: 1.5)
         response = ClientMessage.new("BL", "SI")
-        response.add floor_item_response(furni, 0)
+        user_items = Item.by_user(user.id)
+        user_items.each_with_index do |item, idx|
+          response.add floor_item_response(item, idx)
+        end
         response.add 13.chr
-        response.add Encoding::VL64.encode(1)
+        response.add Encoding::VL64.encode(user_items.count)
       end
 
       private

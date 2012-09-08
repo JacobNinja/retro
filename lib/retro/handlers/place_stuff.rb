@@ -5,11 +5,17 @@ module Retro
 
       def call
         item_id, x, y = data.rest.split(" ")
-        item = Item.new(id: 1, hand_type: "S", sprite: "test", width: 1, length: 1, col: 1.5, rotation: 0, height: "0.00", teleport_id: 0, furni_var: "furni_var")
-        ClientMessage.new("A]", floor_response(item, x, y))
+        Item.find_by_id(item_id) do |item|
+          header = item.in_room? ? "A_" : "A]"
+          if item.wall_item?
+            # ummm...
+          else
+            ClientMessage.new(header, floor_response(item, x, y))
+          end
+        end
       end
 
-      def floor_response(item, x, y)
+      def floor_response(item, x, y, z=0)
         [
           item.id,
           2.chr,
@@ -20,7 +26,7 @@ module Retro
           Encoding::VL64.encode(item.width),
           Encoding::VL64.encode(item.length),
           Encoding::VL64.encode(item.rotation),
-          item.height,
+          z,
           2.chr,
           item.col,
           2.chr,

@@ -18,3 +18,14 @@ require File.expand_path('./../retro/client/message_factory', __FILE__)
 require File.expand_path('./../retro/server_message', __FILE__)
 
 #require File.expand_path('./../../database/connection', __FILE__)
+
+module Retro
+
+  def self.reload_handlers
+    Dir[File.expand_path('./../retro/handlers', __FILE__) + "/*.rb"].each do |file|
+      load file unless file.end_with? "all.rb"
+    end
+    load File.expand_path('./../retro/headers.rb', __FILE__)
+  end
+
+end

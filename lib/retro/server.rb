@@ -15,6 +15,7 @@ module Retro
       end
 
       def receive_data(data)
+        Retro.reload_handlers
         session = @@sessions[self.object_id]
         decrypted_data = session.decrypt(data)
         parse_packet(decrypted_data) do |header, body|

@@ -12,7 +12,7 @@ require File.expand_path('./../retro/headers', __FILE__)
 require File.expand_path('./../retro/encoding/b64', __FILE__)
 require File.expand_path('./../retro/encoding/vl64', __FILE__)
 require File.expand_path('./../retro/encryption/rc4', __FILE__)
-require File.expand_path('./../retro/client/client_message', __FILE__)
+require File.expand_path('./../retro/client/message', __FILE__)
 require File.expand_path('./../retro/client/message_factory', __FILE__)
 require File.expand_path('./../retro/server_message', __FILE__)
 

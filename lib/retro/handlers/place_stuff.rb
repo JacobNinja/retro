@@ -10,7 +10,7 @@ module Retro
             # ummm...
           else
             item.set_position(user.current_room.id, x, y)
-            ClientMessage.new("A]", floor_response(item, x, y))
+            Client::Message.new("A]", floor_response(item, x, y))
           end
         end
       end

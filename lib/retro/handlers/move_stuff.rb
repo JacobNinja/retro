@@ -6,7 +6,7 @@ module Retro
       def call
         id, x, y, rotation = data.rest.split(" ")
         Item.find_by_id(id) do |item|
-          ClientMessage.new("A_", floor_response(item, x, y, rotation))
+          Client::Message.new("A_", floor_response(item, x, y, rotation))
         end
       end
 

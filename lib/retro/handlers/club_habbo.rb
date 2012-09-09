@@ -5,8 +5,8 @@ module Retro
 
       def call
         [
-            ClientMessage.new(:club_habbo, "club_habboYNEHHI"),
-            ClientMessage.new("@W")
+            Client::Message.new(:club_habbo, "club_habboYNEHHI"),
+            Client::Message.new("@W")
         ]
       end
 

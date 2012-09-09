@@ -5,12 +5,12 @@ module Retro
 
       def call
         floor_items = Item.floor_items_in_room(user.current_room.id)
-        item_response = ClientMessage.new("@`", Encoding::VL64.encode(floor_items.count))
+        item_response = Client::Message.new("@`", Encoding::VL64.encode(floor_items.count))
         floor_items.each do |item|
           item_response.add floor_furni_response(item)
         end
         [
-            ClientMessage.new("@^", ""),
+            Client::Message.new("@^", ""),
             item_response
         ]
       end

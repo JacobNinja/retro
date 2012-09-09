@@ -9,9 +9,9 @@ module Retro
         user.y = room.start_y
         user.z = room.start_z
         [
-            ClientMessage.new("@\\", get_user_entry_packet),
-            ClientMessage.new("@j"), # rights
-            ClientMessage.new("@o"), # admin rights ?
+            Client::Message.new("@\\", get_user_entry_packet),
+            Client::Message.new("@j"), # rights
+            Client::Message.new("@o"), # admin rights ?
             Client::MessageFactory.room_movement(user)
         ]
       end

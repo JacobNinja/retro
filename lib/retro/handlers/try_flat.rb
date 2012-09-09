@@ -5,7 +5,7 @@ module Retro
 
       def call
         #room_id = data.to_i
-        ClientMessage.new("@i")
+        Client::Message.new("@i")
       end
 
     end

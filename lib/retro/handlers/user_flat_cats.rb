@@ -4,7 +4,7 @@ module Retro
     class UserFlatCats < Handler
 
       def call
-        ClientMessage.new("C]", private_category_response)
+        Client::Message.new("C]", private_category_response)
       end
 
       private

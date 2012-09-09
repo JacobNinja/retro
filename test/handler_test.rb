@@ -10,7 +10,7 @@ class HandlerTest < Test::Unit::TestCase
     user = Retro::User.new
     sut = mock_handler.new(user, "data")
     result = sut.call
-    assert_instance_of Retro::ClientMessage, result
+    assert_instance_of Retro::Client::Message, result
     assert_equal "@A", result.header
     assert_equal "test", result.body
   end

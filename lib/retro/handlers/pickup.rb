@@ -17,7 +17,7 @@ module Retro
       def pickup_floor_stuff(id)
         Item.find_by_id(id) do |item|
           item.reset_room
-          ClientMessage.new("A^", item.id.to_s)
+          Client::Message.new("A^", item.id.to_s)
         end
       end
 

@@ -4,8 +4,8 @@ module Retro
     class Heightmap < Handler
 
       def call
-        heightmap = 'xxxxxxxxxxxx|xxxx00000000|xxxx00000000|xxxx00000000|xxxx00000000|xxxx00000000|xxxx00000000|xxxx00000000|xxxx00000000|xxxx00000000|xxxx00000000|xxxx00000000|xxxx00000000|xxxx00000000|xxxxxxxxxxxx|xxxxxxxxxxxx'.gsub("|", 13.chr)
-        ClientMessage.new("@_", heightmap)
+        adjusted_heightmap = user.current_room.heightmap.gsub("|", "\r")
+        Client::Message.new("@_", adjusted_heightmap)
       end
 
     end

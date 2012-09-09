@@ -13,7 +13,7 @@ module Retro
             "photo_film" => user.photo_film,
             "directMail" => user.direct_mail
         }
-        ClientMessage.new(:name, packet.map {|(k, v)| "#{k}=#{v}"}.join("\r") + "\r")
+        Client::Message.new(:name, packet.map {|(k, v)| "#{k}=#{v}"}.join("\r") + "\r")
       end
 
     end

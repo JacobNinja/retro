@@ -6,7 +6,7 @@ module Retro
       def call
         # @y = no results
         flat_response = user.rooms.map &method(:search_response)
-        ClientMessage.new("@P", flat_response.join(9.chr))
+        Client::Message.new("@P", flat_response.join(9.chr))
       end
 
       def search_response(room)

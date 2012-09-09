@@ -8,7 +8,7 @@ module Retro
         #public = []
         #response = ["HHJ", 2.chr, "HHH", Encoding::VL64.encode(guests.count), guests.join].join
         response = ""
-        ClientMessage.new("@}", response)
+        Client::Message.new("@}", response)
       end
 
       def private_room_response(hide_full)

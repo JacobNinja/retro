@@ -4,7 +4,7 @@ module Retro
     class Hand < Handler
 
       def call
-        response = ClientMessage.new("BL", "SI")
+        response = Client::Message.new("BL", "SI")
         user_items = Item.by_user(user.id).reject &:in_room?
         user_items.each_with_index do |item, idx|
           response.add floor_item_response(item, idx)

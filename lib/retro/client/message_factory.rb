@@ -12,7 +12,7 @@ module Retro
           z = opts[:z] || user.z
           head_direction = opts[:head_direction] || user.head_direction
           body_direction = opts[:body_direction] || user.body_direction
-          ClientMessage.new("@b", "#{user.current_room_id} #{x},#{y},#{z},#{head_direction},#{body_direction}#{user.states.build}#{13.chr}")
+          Client::Message.new("@b", "#{user.current_room_id} #{x},#{y},#{z},#{head_direction},#{body_direction}#{user.states.build}#{13.chr}")
         end
 
       end

@@ -10,11 +10,11 @@ module Retro
         if user
           @session.user = user
           [
-              ClientMessage.new(:rights, "fuse_login"),
-              ClientMessage.new(:login_ok),
+              Client::Message.new(:rights, "fuse_login"),
+              Client::Message.new(:login_ok),
           ]
         else
-          ClientMessage.new("@c", "FUCK YOU!!!")
+          Client::Message.new("@c", "FUCK YOU!!!")
         end
       end
 

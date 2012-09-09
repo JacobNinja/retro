@@ -11,7 +11,7 @@ module Retro
       end
 
       def call
-        ClientMessage.new(header, body)
+        Client::Message.new(header, body)
       end
 
       def header

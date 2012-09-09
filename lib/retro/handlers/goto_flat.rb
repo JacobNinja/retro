@@ -10,10 +10,10 @@ module Retro
           user.current_room_id = 0 # Generate this
           user.states.add_rights if room.owned_by?(user)
           [
-              ClientMessage.new("Bf", "about:blank"),
-              ClientMessage.new("AE", room.model),
-              ClientMessage.new("@n", "wallpaper/0"),
-              ClientMessage.new("@n", "floor/0"),
+              Client::Message.new("Bf", "about:blank"),
+              Client::Message.new("AE", room.model),
+              Client::Message.new("@n", "wallpaper/0"),
+              Client::Message.new("@n", "floor/0"),
           ]
         end
       end

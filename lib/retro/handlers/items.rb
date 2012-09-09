@@ -6,7 +6,7 @@ module Retro
       def call
         wall_items = ""
         [
-            ClientMessage.new("@m", wall_items)
+            Client::Message.new("@m", wall_items)
         ]
       end
 

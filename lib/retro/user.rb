@@ -50,7 +50,7 @@ module Retro
     end
 
     def greeting
-      ClientMessage.new(:greeting)
+      Client::Message.new(:greeting)
     end
 
     def rooms

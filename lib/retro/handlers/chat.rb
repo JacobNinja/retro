@@ -9,10 +9,10 @@ module Retro
         message = data.slice(2, message_length)
         if message.start_with? ":client"
           _, header, *body = message.split(" ")
-          ClientMessage.new(header, body.join(" "))
+          Client::Message.new(header, body.join(" "))
         else
           response = Encoding::VL64.encode(user_id) + message + 2.chr
-          ClientMessage.new("@X", response)
+          Client::Message.new("@X", response)
         end
 
       end

@@ -20,7 +20,7 @@ module Retro
             Encoding::VL64.encode(5), # user count
             Encoding::VL64.encode(room.max_guests), # max users
           ]
-          ClientMessage.new("@v", response.join)
+          Client::Message.new("@v", response.join)
         end
       end
 

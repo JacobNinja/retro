@@ -1,5 +1,35 @@
 module Retro
 
+  class UserState
+
+    def initialize
+      @states = []
+    end
+
+    def dance
+      @states << "dance" unless @states.include? "dance"
+    end
+
+    def dance!
+      @states.delete("dance")
+    end
+
+    def add_rights
+      @states << "flatctrl" unless @states.include? "flatctrl"
+    end
+
+    def clear
+      @states.clear
+    end
+
+    def build
+      @states.inject("") do |status, state|
+        status + "/#{state}"
+      end
+    end
+
+  end
+
   class User
 
     attr_accessor :current_room, :x, :y, :z, :body_direction, :head_direction, :current_room_id
@@ -14,7 +44,7 @@ module Retro
       @photo_film = opts[:photo_film] || 0
       @direct_mail = opts[:direct_mail] || 0
       @id = opts[:id]
-      @states = []
+      @states = UserState.new
       @body_direction = 2
       @head_direction = 2
     end
@@ -25,10 +55,6 @@ module Retro
 
     def rooms
       Room.owned_by(self.id)
-    end
-
-    def add_rights_state
-      @states << "flatctrl"
     end
 
   end

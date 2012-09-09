@@ -19,6 +19,10 @@ module Retro
       Room.by_category(id)
     end
 
+    def self.of_type(type)
+      DB[:room_categories].filter(:type => type).map {|data| new(data) }
+    end
+
   end
 
 end

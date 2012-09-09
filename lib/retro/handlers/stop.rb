@@ -4,7 +4,10 @@ module Retro
     class Stop < Handler
 
       def call
-        # nothing
+        if data.rest == "Dance"
+          user.states.dance!
+          Client::MessageFactory.room_movement(user)
+        end
       end
 
     end

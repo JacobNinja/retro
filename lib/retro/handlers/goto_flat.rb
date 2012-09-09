@@ -8,7 +8,7 @@ module Retro
         Room.find_by_id(room_id) do |room|
           user.current_room = room
           user.current_room_id = 0 # Generate this
-          user.add_rights_state if room.owned_by?(user)
+          user.states.add_rights if room.owned_by?(user)
           [
               ClientMessage.new("Bf", "about:blank"),
               ClientMessage.new("AE", room.model),

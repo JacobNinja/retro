@@ -7,7 +7,7 @@ module Retro
         hide_full = data.pop_vl64
         category_type = Encoding::VL64.decode(data.rest[0, data.rest.length - 1]) - 3
         response = ClientMessage.new("C\\")
-        categories = all_room_categories_of_type(category_type)
+        categories = RoomCategory.of_type(category_type)
         categories.each do |category|
           response.add category_response(hide_full, category)
           category.rooms.each do |room|
@@ -19,10 +19,6 @@ module Retro
       end
 
       private
-
-      def all_room_categories_of_type(type)
-        DB[:room_categories].filter(:type => type).map {|data| RoomCategory.new(data) }
-      end
 
       def category_response(hide_full, category)
         partial_response = [

@@ -29,14 +29,14 @@ module Retro
         @body.join
       end
 
-      def packet
+      def data
         packet = header + body
         #"@#{Encoding::Base64.encode(packet.length)}#{packet}#{1.chr}"
         "#{packet}#{1.chr}"
       end
 
       def packets
-        [packet]
+        [self]
       end
 
     end

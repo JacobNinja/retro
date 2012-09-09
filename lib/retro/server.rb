@@ -29,8 +29,8 @@ module Retro
       def send_response(response)
         if response
           response.packets.each do |packet|
-            p "Outgoing => header: #{response.header}, body: #{response.body}, encoded: #{response.packet}"
-            send_data packet
+            p "Outgoing => header: #{packet.header}, body: #{packet.body}, encoded: #{packet.data}"
+            send_data packet.data
           end
         end
       end

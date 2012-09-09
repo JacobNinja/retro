@@ -14,6 +14,14 @@ module Retro
       @states.delete("dance")
     end
 
+    def wave
+      @states << "wave" unless @states.include? "wave"
+    end
+
+    def wave!
+      @states.delete("wave")
+    end
+
     def add_rights
       @states << "flatctrl" unless @states.include? "flatctrl"
     end

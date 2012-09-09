@@ -24,6 +24,7 @@ module Retro
         88 => Stop, # AX
         90 => PlaceStuff, # AZ
         93 => Dance, # A]
+        94 => Wave, # A^
         115 => GoAway, # As
         126 => RoomAd, # A~
         157 => Badges, # B]

@@ -4,7 +4,6 @@ module Retro
     class Chat < Handler
 
       def call
-        user_id = 0
         message = data.pop_b64!
         if message.start_with? ":client"
           _, header, *body = message.split(" ")
@@ -15,7 +14,7 @@ module Retro
           handler = Handlers.server_headers[header_int]
           return handler.new(@session, body.join(" ")).call if handler
         end
-        response = Encoding::VL64.encode(user_id) + message + 2.chr
+        response = Encoding::VL64.encode(user.current_room_id) + message + 2.chr
         Client::Message.new("@X", response)
       end
 

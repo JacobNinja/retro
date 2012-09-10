@@ -9,6 +9,11 @@ module Retro
           6 => Shockwave, # @F
           7 => UserDetails, # @G
           8 => Credits, # @H
+          12 => MessengerInit, # @L
+          16 => SearchRooms, # @P
+          18 => FavoriteRooms, # @R
+          21 => RoomInfo, # @U
+          26 => ClubHabbo, # @Z
           52 => Chat, # @t
           55 => Shout, # @w
           57 => TryFlat, # @y
@@ -27,16 +32,14 @@ module Retro
           90 => PlaceStuff, # AZ
           93 => Dance, # A]
           94 => Wave, # A^
+          100 => CatalogPurchase, # Ad
+          101 => CatalogPages, # Ae
+          102 => CatalogPageInfo, # Af
           115 => GoAway, # As
           126 => RoomAd, # A~
-          157 => Badges, # B]
-          12 => MessengerInit, # @L
-          26 => ClubHabbo, # @Z
           150 => Navigate, # BV
           151 => UserFlatCats, # BW
-          16 => SearchRooms, # @P
-          18 => FavoriteRooms, # @R
-          21 => RoomInfo, # @U
+          157 => Badges, # B]
           182 => GetInterest, # Bv
           202 => GenerateKey, # CJ
       }

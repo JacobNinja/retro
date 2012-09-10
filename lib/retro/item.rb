@@ -7,7 +7,7 @@ module Retro
 
     attr_reader :id, :furni_definition_id, :user_id, :rotation, :x, :y, :room_id, :teleport_id
 
-    delegate FurniDefinition.instance_methods(false) => :furni_definition
+    delegate [:hand_type, :sprite, :width, :length, :col, :height, :flags, :furni_var, :wall_item?] => :furni_definition
 
     def initialize(opts={})
       @id = opts[:id]
@@ -28,11 +28,12 @@ module Retro
       !room_id.nil?
     end
 
-    def set_position(room_id, x, y)
-      update_room(room_id, x, y)
+    def set_position(room_id, x, y, rotation=0)
+      update_room(room_id, x, y, rotation)
       @room_id = room_id
       @x = x
       @y = y
+      @rotation = rotation
     end
 
     def reset_room
@@ -42,8 +43,12 @@ module Retro
       @y = nil
     end
 
-    def update_room(room_id, x, y)
-      DB[:items].where(:id => self.id).update(room_id: room_id, x: x, y: y)
+    def update_room(room_id, x, y, rotation)
+      DB[:items].where(:id => self.id).update(room_id: room_id, x: x, y: y, rotation: rotation)
+    end
+
+    def self.create(user, furni_definition)
+      DB[:items].insert(user_id: user.id, furni_definition_id: furni_definition.id)
     end
 
     def self.floor_items_in_room(room_id)

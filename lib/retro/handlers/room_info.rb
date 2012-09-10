@@ -18,7 +18,7 @@ module Retro
             Encoding::VL64.encode(0), # show owner
             Encoding::VL64.encode(0), # can trade
             Encoding::VL64.encode(5), # user count
-            Encoding::VL64.encode(room.max_guests), # max users
+            Encoding::VL64.encode(25), # max users
           ]
           Client::Message.new("@v", response.join)
         end

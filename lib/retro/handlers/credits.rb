@@ -4,7 +4,7 @@ module Retro
     class Credits < Handler
 
       def call
-        Client::Message.new(:credits, "0.0")
+        Client::Message.new(:credits, "100.0")
       end
 
     end

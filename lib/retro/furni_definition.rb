@@ -2,7 +2,7 @@ module Retro
 
   class FurniDefinition
 
-    attr_reader :hand_type, :sprite, :width, :length, :col, :furni_var, :height, :flags
+    attr_reader :id, :hand_type, :sprite, :width, :length, :col, :furni_var, :height, :flags
 
     def initialize(opts={})
       @id = opts[:id]

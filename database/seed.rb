@@ -1,22 +1,54 @@
 require File.expand_path('./../connection', __FILE__)
 
+lines = File.foreach("/Users/jacobr/learn/thor/trunk/ThorServer/Data/Schema.sql")
+
+table_re = /INSERT INTO (\w+)/
+values_re = /VALUES\((.*)\)/
+
+hsh = {}
+loop do
+  line = lines.next
+  if match = line.match(table_re)
+    table_name = match.captures.first
+    captured_values = lines.next.match(values_re).captures.first
+    values = eval("[#{captured_values}]")
+    hsh[table_name] ||= []
+    hsh[table_name] << values
+  end
+end
+
+## seed the data
+
+furni_definitions = hsh["FurniDefinitions"].each_with_object({}) do |(id, sprite, flags, width, length, col, height, hand_type, var_type, action_height, can_trade, public_furni), f_hsh|
+  f_hsh[id] = DB[:furni_definitions].insert(sprite: sprite, flags: flags, width: width, length: length, col: col, height: height, hand_type: hand_type, var_type: var_type, action_height: action_height, can_trade: can_trade, public: public_furni)
+end
+furni_definitions_by_code = {}
+furni_definitions_by_code["purchase_barchair_silo"] = DB[:furni_definitions].insert(sprite: "barchair_silo", flags: 'S', width: 2, length: 1, col: "0,0,0", height: 1, hand_type: 'S', var_type: 0, action_height: 0, can_trade: 1, public: 0)
+
+catalog_pages = hsh["CataloguePages"].each_with_object({}) do |(id, name, visible_name, order, layout, image_title, side_image, description, label, additional, staff_only), c_hsh|
+  c_hsh[id] = DB[:catalog_pages].insert(name: name, visible_name: visible_name, order: order, layout: layout, image_title: image_title, side_image: side_image, description: description, label: label, additional: additional, staff_only: staff_only)
+end
+
+hsh["CatalogueItems"].each do |(id, furni_type, page_id, cost, purchase_code)|
+  furni_definition_id = furni_definitions[furni_type] || furni_definitions_by_code[purchase_code]
+  DB[:catalog_items].insert(furni_definition_id: furni_definition_id, catalog_page_id: catalog_pages[page_id], cost: cost, purchase_code: purchase_code)
+end
+
+hsh["RoomTypes"].each do |(id, friendly_name, model, heightmap, start_x, start_y, start_z, guest, _, ccts, user_type, max_ascend, max_descend)|
+  DB[:room_types].insert(name: friendly_name, heightmap: heightmap, start_x: start_x, start_y: start_y, start_z: start_z, guest: guest, ccts: ccts, user_type: user_type, max_ascend: max_ascend, max_descend: max_descend, model: model)
+end
+
 ## USERS
 user_id = DB[:users].insert(name: "test", password: "123", figure: "1150120723280013050122525", sex: "M", mission: "mission")
 
 ## CATEGORIES
-public_category_id = DB[:room_categories].insert(type: 0, name: "Public Category", parent: 0)
-private_category_id = DB[:room_categories].insert(type: 2, name: "Private Category", parent: 0)
+#public_category_id = DB[:room_categories].insert(type: 0, name: "Public Category", parent: 0)
+#private_category_id = DB[:room_categories].insert(type: 2, name: "Private Category", parent: 0)
 
-## ROOM TYPES
-public_lounge_type_id = DB[:room_types].insert(name: "Public Welcome Lounge", max_guests: 100, ccts: 'hh_room_nlobby', model: 'newbie_lobby', start_x: 2, start_y: 11, start_z: 0, guest: 0, max_ascend: 1.5, max_descend: 4.0, user_type: 0, heightmap: 'xxxxxxxxxxxxxxxx000000|xxxxx0xxxxxxxxxx000000|xxxxx00000000xxx000000|xxxxx000000000xx000000|0000000000000000000000|0000000000000000000000|0000000000000000000000|0000000000000000000000|0000000000000000000000|xxxxx000000000000000xx|xxxxx000000000000000xx|x0000000000000000000xx|x0000000000000000xxxxx|xxxxxx00000000000xxxxx|xxxxxxx0000000000xxxxx|xxxxxxxx000000000xxxxx|xxxxxxxx000000000xxxxx|xxxxxxxx000000000xxxxx|xxxxxxxx000000000xxxxx|xxxxxxxx000000000xxxxx|xxxxxxxx000000000xxxxx|xxxxxx00000000000xxxxx|xxxxxx00000000000xxxxx|xxxxxx00000000000xxxxx|xxxxxx00000000000xxxxx|xxxxxx00000000000xxxxx|xxxxx000000000000xxxxx|xxxxx000000000000xxxxx')
-private_type_id = DB[:room_types].insert(name: "Guest Model A", max_guests: 25, ccts: '0', model: 'model_a', start_x: 3, start_y: 5, start_z: 0, guest: 1, max_ascend: 1.5, max_descend: 4.0, user_type: 1, heightmap: 'xxxxxxxxxxxx|xxxx00000000|xxxx00000000|xxxx00000000|xxxx00000000|xxxx00000000|xxxx00000000|xxxx00000000|xxxx00000000|xxxx00000000|xxxx00000000|xxxx00000000|xxxx00000000|xxxx00000000|xxxxxxxxxxxx|xxxxxxxxxxxx')
+## Create a new room
+model_a_id = DB[:room_types].first(:model => "model_a")[:id]
+my_room_id = DB[:rooms].insert(name: "test", description: "test", category_id: nil, type_id: model_a_id, status: 1, owner_id: user_id)
 
-## ROOMS
-DB[:rooms].insert(name: "Welcome Lounge", description: "test", category_id: public_category_id, type_id: public_lounge_type_id, status: 'open')
-my_room_id = DB[:rooms].insert(name: "test", description: "test", category_id: private_category_id, type_id: private_type_id, status: 'open', owner_id: user_id)
 
-## FURNI DEFINITIONS
-furni_id = DB[:furni_definitions].insert(sprite: 'bardeskcorner_polyfon', flags: 'MO', hand_type: 'S', width: 1, length: 1, col: "0,0,0", height: 1.0)
-
-## ITEMS
-DB[:items].insert(user_id: user_id, furni_definition_id: furni_id)
+## Create some items for user
+#DB[:items].insert(user_id: user_id, furni_definition_id: furni_id)

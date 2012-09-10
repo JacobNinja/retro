@@ -9,7 +9,7 @@ class ClientMessageTest < Test::Unit::TestCase
 
   test "#header encodes symbol to b64 if mapping exists" do
     sut = Retro::Client::Message.new(:public_key)
-    encoded_header = Retro::Encoding::B64.encode(Retro::Handlers::CLIENT_HEADERS[:public_key])
+    encoded_header = Retro::Encoding::B64.encode(Retro::Handlers.client_headers[:public_key])
     assert_equal encoded_header, sut.header
   end
 

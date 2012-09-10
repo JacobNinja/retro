@@ -17,7 +17,7 @@ module Retro
         case @header
           when Integer then Encoding::B64.encode(@header)
           when Symbol then
-            header_int = Handlers::CLIENT_HEADERS[@header]
+            header_int = Handlers.client_headers[@header]
             Encoding::B64.encode(header_int)
           when String then @header
           else nil

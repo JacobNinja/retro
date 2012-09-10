@@ -12,7 +12,7 @@ module Retro
         elsif message.start_with? ":server"
           _, header, *body = message.split(" ")
           header_int = Encoding::B64.decode(header)
-          handler = Handlers::SERVER_HEADERS[header_int]
+          handler = Handlers.server_headers[header_int]
           return handler.new(@session, body.join(" ")).call if handler
         end
         response = Encoding::VL64.encode(user_id) + message + 2.chr

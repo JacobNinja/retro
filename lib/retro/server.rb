@@ -20,7 +20,7 @@ module Retro
         decrypted_data = session.decrypt(data)
         parse_packet(decrypted_data) do |header, body|
           encoded_header = Encoding::B64.encode(header)
-          handler = Handlers::SERVER_HEADERS[header] || Handlers.null(header)
+          handler = Handlers.server_headers[header] || Handlers.null(header)
           p "Incoming => header: [#{encoded_header}, #{header}], handler: #{handler}, body: #{body}, decoded: #{decrypted_data}"
           responses = handler.new(session, body).call
           Array(responses).each &method(:send_response)

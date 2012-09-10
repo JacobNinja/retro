@@ -13,8 +13,12 @@ module Retro
           16 => SearchRooms, # @P
           18 => FavoriteRooms, # @R
           21 => RoomInfo, # @U
+          25 => SetRoomInfo, # @Y
           26 => ClubHabbo, # @Z
+          29 => CreateRoom, # @]
+          44 => UpdateUser, # @l
           52 => Chat, # @t
+          53 => HotelView, # @u
           55 => Shout, # @w
           57 => TryFlat, # @y
           59 => GotoFlat, # @{
@@ -26,6 +30,7 @@ module Retro
           65 => Hand, # AA
           67 => Pickup, # AC
           73 => MoveStuff, # AI
+          74 => SignStuff, # AJ
           75 => Move, # AK
           79 => LookTo, # AO
           88 => Stop, # AX
@@ -39,6 +44,7 @@ module Retro
           126 => RoomAd, # A~
           150 => Navigate, # BV
           151 => UserFlatCats, # BW
+          153 => SetRoomCategory, # BY
           157 => Badges, # B]
           182 => GetInterest, # Bv
           202 => GenerateKey, # CJ

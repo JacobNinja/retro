@@ -4,18 +4,22 @@ module Retro
     class UserFlatCats < Handler
 
       def call
-        Client::Message.new("C]", private_category_response)
+        room_categories = RoomCategory.of_type(2)
+        response = Client::Message.new("C]", Encoding::VL64.encode(room_categories.count))
+        room_categories.each do |room_category|
+          response.add private_category_response(room_category)
+        end
+        response
       end
 
       private
 
-      def private_category_response
-        [].tap do |list|
-          list << Encoding::VL64.encode(1) # category count
-          list << Encoding::VL64.encode(1234) # category id
-          list << "Category Name"
-          list << 2.chr
-        end.join
+      def private_category_response(room_category)
+        [
+          Encoding::VL64.encode(room_category.id),
+          room_category.name,
+          2.chr,
+        ].join
       end
 
     end

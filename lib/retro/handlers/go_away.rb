@@ -6,7 +6,7 @@ module Retro
       @header = "@R"
 
       def call
-        user.states.clear
+        user.leave_room
         super
       end
 

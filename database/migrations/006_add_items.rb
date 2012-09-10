@@ -11,6 +11,7 @@ Sequel.migration do
       Integer :x
       Integer :y
       Integer :rotation
+      String :furni_var
     end
 
   end

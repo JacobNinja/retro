@@ -10,7 +10,10 @@ module Retro
             # ummm...
           else
             item.set_position(user.current_room.id, x, y)
-            Client::Message.new("A]", floor_response(item, x, y))
+            [
+                Client::Message.new("A]", floor_response(item, x, y)),
+                Client::MessageFactory.heightmap(user.current_room),
+            ]
           end
         end
       end

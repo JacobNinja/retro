@@ -17,7 +17,18 @@ module Retro
     end
 
     def pop_vl64
-      Encoding::VL64.decode @data.slice!(0, 1)
+      header_byte = @data.slice(0, 1).ord
+      Encoding::VL64.decode @data.slice!(0, vl64_content_length(header_byte))
+    end
+
+    def vl64_content_length(byte)
+      if byte < 80
+        1
+      elsif byte < 88
+        2
+      else
+        3
+      end
     end
 
     def rest

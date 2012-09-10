@@ -5,9 +5,9 @@ module Retro
   class Item
     extend Forwardable
 
-    attr_reader :id, :furni_definition_id, :user_id, :rotation, :x, :y, :room_id, :teleport_id
+    attr_reader :id, :furni_definition_id, :user_id, :rotation, :x, :y, :room_id, :teleport_id, :furni_var
 
-    delegate [:hand_type, :sprite, :width, :length, :col, :height, :flags, :furni_var, :wall_item?] => :furni_definition
+    delegate FurniDefinition::ATTRIBUTES + FurniDefinition::Flags.instance_methods(false) + FurniDefinition::VarTypes.instance_methods(false) => :furni_definition
 
     def initialize(opts={})
       @id = opts[:id]
@@ -18,14 +18,33 @@ module Retro
       @teleport_id = opts[:teleport_id] || 0
       @x = opts[:x]
       @y = opts[:y]
+      @furni_var = opts[:furni_var]
     end
 
     def furni_definition
-      FurniDefinition.find_by_id(@furni_definition_id) if @furni_definition_id
+      @furni_definition ||= FurniDefinition.find_by_id(@furni_definition_id) if @furni_definition_id
     end
 
     def in_room?
       !room_id.nil?
+    end
+
+    def within?(x, y)
+      if length == 1 && width == 1
+        @x == x && @y == y
+      elsif length == 2
+        if rotation % 4 == 0
+          (x == @x || x == @x + (length - 1)) && y == @y
+        else
+          (y == @y || y == @y + (length - 1)) && x == @x
+        end
+      elsif width == 2
+        if rotation % 4 == 0
+          (x == @x || x == @x + (width - 1)) && y == @y
+        else
+          (y == @y || y == @y + (width - 1)) && x == @x
+        end
+      end
     end
 
     def set_position(room_id, x, y, rotation=0)
@@ -36,11 +55,17 @@ module Retro
       @rotation = rotation
     end
 
+    def update_furni_var(furni_var)
+      DB[:items].where(id: self.id).update(furni_var: furni_var)
+      @furni_var = furni_var
+    end
+
+    def open?
+      @furni_var == "O"
+    end
+
     def reset_room
-      update_room(nil, nil, nil)
-      @room_id = nil
-      @x = nil
-      @y = nil
+      set_position(nil, nil, nil, nil)
     end
 
     def update_room(room_id, x, y, rotation)

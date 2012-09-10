@@ -8,7 +8,7 @@ module Retro
         y = data.pop_b64
         user.x = x
         user.y = y
-        Client::MessageFactory.room_movement(user)
+        Client::MessageFactory.room_movement(user) unless user.current_room.heightmap.blocked?(x, y)
       end
 
     end

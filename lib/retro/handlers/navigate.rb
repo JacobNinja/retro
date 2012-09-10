@@ -5,17 +5,17 @@ module Retro
 
       def call
         hide_full = data.pop_vl64
-        category_type = Encoding::VL64.decode(data.rest[0, data.rest.length - 1]) - 3
+        category_id = Encoding::VL64.decode(data.rest[0, data.rest.length - 1])
         response = Client::Message.new("C\\")
-        categories = RoomCategory.of_type(category_type)
-        categories.each do |category|
-          response.add category_response(hide_full, category)
-          category.rooms.each do |room|
-            response.add room_response(room, category)
-          end
+        category = RoomCategory.find_by_id(category_id)
+        response.add category_response(hide_full, category)
+        category.rooms.each do |room|
+          response.add room_response(room, category)
+        end
+        category.subcategories.each do |subcategory|
+          response.add subcategory_response(hide_full, subcategory)
         end
         response
-        #response.add subcategory_response(hide_full)
       end
 
       private
@@ -23,13 +23,13 @@ module Retro
       def category_response(hide_full, category)
         partial_response = [
           Encoding::VL64.encode(hide_full),
-          Encoding::VL64.encode(category.id), # category id
-          Encoding::VL64.encode(category.type), # room category type
+          Encoding::VL64.encode(category.id),
+          Encoding::VL64.encode(category.type),
           category.name,
           2.chr,
           Encoding::VL64.encode(0),
           Encoding::VL64.encode(10000),
-          Encoding::VL64.encode(0), # parent category
+          Encoding::VL64.encode(category.parent || 0),
         ]
         partial_response << Encoding::VL64.encode(category.rooms.count) if category.guest?
         partial_response.join
@@ -45,7 +45,7 @@ module Retro
             room.status,
             2.chr,
             Encoding::VL64.encode(10), #current users
-            Encoding::VL64.encode(room.max_guests),
+            Encoding::VL64.encode(25),
             room.description,
             2.chr
         ]
@@ -58,7 +58,7 @@ module Retro
           room.name,
           2.chr,
           Encoding::VL64.encode(10), # current users
-          Encoding::VL64.encode(room.max_guests),
+          Encoding::VL64.encode(room.max_guests || 25),
           Encoding::VL64.encode(category_id),
           room.description,
           2.chr,
@@ -79,15 +79,15 @@ module Retro
         end
       end
 
-      def subcategory_response(hide_full)
+      def subcategory_response(hide_full, subcategory)
         [
-          Encoding::VL64.encode(456), #subcategory id
+          Encoding::VL64.encode(subcategory.id), #subcategory id
           Encoding::VL64.encode(0), # idk
-          "Subcategory name",
+          subcategory.name,
           2.chr,
           Encoding::VL64.encode(20), # current users
           Encoding::VL64.encode(200), # max users
-          Encoding::VL64.encode(333), # parent category id
+          Encoding::VL64.encode(subcategory.parent || 0), # parent category id
         ].join
       end
 

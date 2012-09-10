@@ -18,9 +18,10 @@ require File.expand_path('./../retro/encryption/rc4', __FILE__)
 require File.expand_path('./../retro/client/message', __FILE__)
 require File.expand_path('./../retro/client/duration_message', __FILE__)
 require File.expand_path('./../retro/client/message_factory', __FILE__)
+require File.expand_path('./../retro/client/heightmap', __FILE__)
 require File.expand_path('./../retro/server_message', __FILE__)
 
-#require File.expand_path('./../../database/connection', __FILE__)
+require File.expand_path('./../../database/connection', __FILE__)
 
 module Retro
 

@@ -39,15 +39,21 @@ hsh["RoomTypes"].each do |(id, friendly_name, model, heightmap, start_x, start_y
 end
 
 ## USERS
-user_id = DB[:users].insert(name: "test", password: "123", figure: "1150120723280013050122525", sex: "M", mission: "mission")
+user_id = DB[:users].insert(name: "test", password: "123", figure: "8000119001280152950125516", sex: "M", mission: "mission")
 
 ## CATEGORIES
-#public_category_id = DB[:room_categories].insert(type: 0, name: "Public Category", parent: 0)
-#private_category_id = DB[:room_categories].insert(type: 2, name: "Private Category", parent: 0)
+public_category_id = DB[:room_categories].insert(id: 3, type: 0, name: "Public Categories", parent: 0)
+private_category_id = DB[:room_categories].insert(id: 4, type: 2, name: "Private Categories", parent: 0)
+DB[:room_categories].insert(type: 2, name: "No Category", parent: private_category_id)
+outside_category_id = DB[:room_categories].insert(type: 0, name: "Outside Spaces", parent: public_category_id)
+trade_room_category_id = DB[:room_categories].insert(type: 2, name: "Trade Rooms", parent: private_category_id)
 
 ## Create a new room
 model_a_id = DB[:room_types].first(:model => "model_a")[:id]
-my_room_id = DB[:rooms].insert(name: "test", description: "test", category_id: nil, type_id: model_a_id, status: 1, owner_id: user_id)
+my_room_id = DB[:rooms].insert(name: "test", description: "test", category_id: trade_room_category_id, type_id: model_a_id, status: 0, owner_id: user_id)
+
+welcome_id = DB[:room_types].first(model: "newbie_lobby")[:id]
+welcome_room_id = DB[:rooms].insert(name: "Welcome lounge", description: "test", category_id: outside_category_id, type_id: welcome_id, status: 0)
 
 
 ## Create some items for user

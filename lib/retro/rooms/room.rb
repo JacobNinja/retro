@@ -7,7 +7,7 @@ module Retro
 
     attr_reader :id, :name, :owner_id, :description, :status
 
-    delegate [:max_guests, :heightmap, :ccts, :model, :start_x, :start_y, :start_z] => :type
+    delegate [:max_guests, :ccts, :model, :start_x, :start_y, :start_z] => :type
 
     def initialize(opts={})
       @id = opts[:id]
@@ -19,17 +19,45 @@ module Retro
     end
 
     def type
-      RoomType.find_by_type_id(@type_id) if @type_id
+      @type ||= RoomType.find_by_type_id(@type_id)
+    end
+
+    def heightmap
+      Client::Heightmap.new(type.heightmap).overlay(*items)
     end
 
     def owned_by?(user)
       self.owner_id == user.id
     end
 
+    def items
+      Item.floor_items_in_room(self.id)
+    end
+
+    def update_category(category)
+      DB[:rooms].where(id: self.id).update(category_id: category.id)
+      @category_id = category.id
+    end
+
+    def update_description(description)
+      DB[:rooms].where(id: self.id).update(description: description)
+      @description = description
+    end
+
+    def self.create(name, user, type, status)
+      new_id = DB[:rooms].insert(name: name, owner_id: user.id, type_id: type.id, category_id: 4, status: status)
+      find_by_id(new_id)
+    end
+
     def self.find_by_id(room_id)
-      room = db.first(:id => room_id)
-      if room && block_given?
-        yield new(room)
+      data = db.first(:id => room_id)
+      if data
+        room = new(data)
+        if block_given?
+          yield room
+        else
+          room
+        end
       else
         nil
       end

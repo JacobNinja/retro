@@ -22,7 +22,7 @@ module Retro
         [
           "i:#{user.current_room_id}" + 13.chr,
           "n:#{user.name}" + 13.chr,
-          "f:hr-681-31.hd-180-7.ch-240-84.lg-270-90.sh-908-66.ea-1404-74" + 13.chr,
+          "f:#{user.figure}" + 13.chr,
           "l:#{user.x} #{user.y} #{user.z}" + 13.chr,
           "s:#{user.sex}" + 13.chr,
           "c:mission" + 13.chr,

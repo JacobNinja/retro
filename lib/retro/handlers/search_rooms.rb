@@ -5,23 +5,24 @@ module Retro
 
       def call
         # @y = no results
-        flat_response = user.rooms.map &method(:search_response)
-        Client::Message.new("@P", flat_response.join(9.chr))
+        room_response = user.rooms.map &method(:search_response)
+        Client::Message.new("@P", room_response.join)
       end
 
       def search_response(room)
         [
-            room.id.to_s,
+            room.id,
             room.name,
             "-",
             "open",
             "x",
-            "0",
-            room.max_guests.to_s,
+            "0", # current users
+            25, # max guests
             "null",
             room.description,
-            "\r"
-        ]
+            room.description,
+            13.chr
+        ].join(9.chr)
       end
 
     end

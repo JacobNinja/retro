@@ -65,6 +65,34 @@ module Retro
       Room.owned_by(self.id)
     end
 
+    def leave_room
+      @current_room, @x, @y, @z, @body_direction, @head_direction, @current_room_id = nil
+      states.clear
+    end
+
+    def enter_room(room, user_room_id)
+      @current_room = room
+      @current_room_id = user_room_id
+      states.add_rights if room.owned_by?(self)
+    end
+
+    def update(attrs_as_hash)
+      DB[:users].where(:id => self.id).update(attrs_as_hash)
+      attrs_as_hash.each do |key, value|
+        instance_variable_set("@#{key}", value)
+      end
+    end
+
+    def self.authenticate(username, password)
+      data = DB[:users].first(name: username, password: password)
+      User.new(data) if data
+    end
+
+    def self.find_by_id(id)
+      data = DB[:users].first(id: id)
+      new(data) if data
+    end
+
   end
 
 end

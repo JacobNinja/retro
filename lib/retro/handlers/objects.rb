@@ -4,7 +4,7 @@ module Retro
     class Objects < Handler
 
       def call
-        floor_items = Item.floor_items_in_room(user.current_room.id)
+        floor_items = ItemManager.in_room(user.current_room)
         item_response = Client::Message.new("@`", Encoding::VL64.encode(floor_items.count))
         floor_items.each do |item|
           item_response.add floor_furni_response(item)
@@ -26,7 +26,7 @@ module Retro
             Encoding::VL64.encode(item.width),
             Encoding::VL64.encode(item.length),
             Encoding::VL64.encode(item.rotation),
-            "0.00",
+            item.z || 0,
             2.chr,
             item.col,
             2.chr, 2.chr,
@@ -42,7 +42,7 @@ module Retro
             item.sprite,
             item.x,
             item.y,
-            item.z,
+            item.z || 0,
             item.rotation,
         ].join(" ")
         response + 13.chr

@@ -4,8 +4,9 @@ module Retro
 
     attr_accessor :user
 
-    def initialize(connection)
+    def initialize(connection, user=nil)
       @connection = connection
+      @user = user
     end
 
     def decrypt(data)

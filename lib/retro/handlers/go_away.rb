@@ -6,7 +6,7 @@ module Retro
       @header = "@R"
 
       def call
-        user.leave_room
+        user_manager.leave
         super
       end
 

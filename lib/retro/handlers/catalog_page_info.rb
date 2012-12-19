@@ -5,13 +5,13 @@ module Retro
 
       def call
         _, page_name = data.rest.split("/")
-        CatalogPage.find_by_name(page_name) do |catalog_page|
-          response = page_response(catalog_page)
-          catalog_page.items.each do |catalog_item|
-            response.add item_response(catalog_item)
-          end
-          response
+        catalog_page = CatalogPageManager.find_by_name(page_name)
+        return nil unless catalog_page
+        response = page_response(catalog_page)
+        catalog_page.items.each do |catalog_item|
+          response.add item_response(catalog_item)
         end
+        response
       end
 
       def page_response(catalog_page)

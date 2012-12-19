@@ -6,7 +6,7 @@ module Retro
       def call
         username = @data.pop_b64!
         password = @data.pop_b64!
-        user = User.authenticate(username, password)
+        user = UserManager.authenticate(username, password)
         if user
           @session.user = user
           [

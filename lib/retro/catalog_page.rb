@@ -10,23 +10,7 @@ module Retro
     end
 
     def items
-      CatalogItem.by_page(self.id)
-    end
-
-    def self.all
-      DB[:catalog_pages].all.map {|data| new(data) }
-    end
-
-    def self.find_by_name(name)
-      data = DB[:catalog_pages].first(:name => name)
-      if data
-        catalog_page = new(data)
-        if block_given?
-          yield catalog_page
-        else
-          catalog_page
-        end
-      end
+      CatalogItemManager.find_by_catalog_page(self)
     end
 
   end

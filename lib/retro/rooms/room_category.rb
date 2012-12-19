@@ -16,28 +16,11 @@ module Retro
     end
 
     def rooms
-      Room.by_category(id)
+      RoomManager.by_category(self)
     end
 
     def subcategories
-      self.class.by_parent_id(self.id)
-    end
-
-    def self.by_parent_id(parent_id)
-      DB[:room_categories].filter(parent: parent_id).map {|data| new(data) }
-    end
-
-    def self.find_by_id(id)
-      data = DB[:room_categories].first(id: id)
-      new(data) if data
-    end
-
-    def self.of_type(type)
-      DB[:room_categories].filter(type: type).map {|data| new(data) }
-    end
-
-    def self.all
-      DB[:room_categories].all.map {|data| new(data) }
+      RoomCategoryManager.subcategories(self)
     end
 
   end

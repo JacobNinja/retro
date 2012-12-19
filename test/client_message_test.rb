@@ -18,11 +18,11 @@ class ClientMessageTest < Test::Unit::TestCase
     assert_equal "@A", sut.header
   end
 
-  test "#packet compiles header and body and chr 1" do
+  test "#data compiles header and body and chr 1" do
     sut = Retro::Client::Message.new("@A")
     sut.add "test"
     expected = ["@A", "test", 1.chr].join
-    assert_equal expected, sut.packet
+    assert_equal expected, sut.packets.first.data
   end
 
 end

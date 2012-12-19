@@ -1,4 +1,4 @@
-require File.expand_path('./../../test_helper', __FILE__)
+require './test_helper'
 
 class LoginHandlerTest < Test::Unit::TestCase
 
@@ -11,12 +11,12 @@ class LoginHandlerTest < Test::Unit::TestCase
   end
 
   test "authenticates with username and password" do
-    sut.expects(:get_authenticated_user).with("test", "123").returns(user)
+    Retro::UserManager.expects(:authenticate).with("test", "123").returns(user)
     sut.call
   end
 
-  test "successful login" do
-    sut.expects(:get_authenticated_user).returns(user)
+  test "sets user on session when successful login" do
+    Retro::UserManager.expects(:authenticate).returns(user)
     sut.call
     assert_equal user, session.user
   end

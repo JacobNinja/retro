@@ -10,6 +10,7 @@ Sequel.migration do
       String :wall_location
       Integer :x
       Integer :y
+      Float :z
       Integer :rotation
       String :furni_var
     end

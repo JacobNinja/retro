@@ -7,7 +7,7 @@ module Retro
         hide_full = data.pop_vl64
         category_id = Encoding::VL64.decode(data.rest[0, data.rest.length - 1])
         response = Client::Message.new("C\\")
-        category = RoomCategory.find_by_id(category_id)
+        category = RoomCategoryManager.find(category_id)
         response.add category_response(hide_full, category)
         category.rooms.each do |room|
           response.add room_response(room, category)

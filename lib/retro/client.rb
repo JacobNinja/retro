@@ -53,3 +53,7 @@ module Retro
   end
 
 end
+
+if $0 == __FILE__
+  Retro::Client.new.simulate
+end

@@ -15,10 +15,8 @@ module Retro
       end
 
       def pickup_floor_stuff(id)
-        Item.find_by_id(id) do |item|
-          item.reset_room
-          Client::Message.new("A^", item.id.to_s)
-        end
+        ItemManager.pickup(id)
+        Client::Message.new("A^", id.to_s)
       end
 
       def pickup_wall_stuff(id)

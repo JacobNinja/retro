@@ -5,9 +5,8 @@ module Retro
 
       def call
         _, room_id, room_details = data.rest.split("/")
-        Room.find_by_id(room_id) do |room|
-          room.update_description(get_room_detail(room_details, "description"))
-        end
+        new_description = get_room_detail(room_details, "description")
+        RoomManager.update(room_id, description: new_description)
         nil
       end
 

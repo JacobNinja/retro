@@ -4,7 +4,7 @@ module Retro
     class UserFlatCats < Handler
 
       def call
-        room_categories = RoomCategory.of_type(2)
+        room_categories = RoomCategoryManager.of_type(2)
         response = Client::Message.new("C]", Encoding::VL64.encode(room_categories.count))
         room_categories.each do |room_category|
           response.add private_category_response(room_category)

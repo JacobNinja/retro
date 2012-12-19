@@ -5,14 +5,21 @@ module Retro
 
       def call
         item_id, x, y = data.rest.split(" ")
-        Item.find_by_id(item_id) do |item|
-          if item.wall_item?
-            # ummm...
-          else
-            item.set_position(user.current_room.id, x, y)
+        item = ItemManager.find(item_id)
+        return nil unless item
+
+        if item.wall_item?
+          # ummm...
+        else
+          x = x.to_i
+          y = y.to_i
+          heightmap = user.current_room.heightmap
+          unless heightmap.blocked?(x, y)
+            z = heightmap.new_item_height(x, y)
+            ItemManager.new(item).place(user.current_room, x, y, z)
             [
                 Client::Message.new("A]", floor_response(item, x, y)),
-                Client::MessageFactory.heightmap(user.current_room),
+                Client::MessageFactory.heightmap(user.current_room)
             ]
           end
         end

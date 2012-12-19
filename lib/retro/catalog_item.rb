@@ -15,7 +15,7 @@ module Retro
     end
 
     def furni_definition
-      @furni_definition ||= FurniDefinition.find_by_id(@furni_definition_id)
+      @furni_definition ||= FurniDefinitionManager.find(@furni_definition_id)
     end
 
     def name
@@ -24,15 +24,6 @@ module Retro
 
     def description
       "TODO"
-    end
-
-    def self.find_by_purchase_code(purchase_code)
-      data = DB[:catalog_items].first(purchase_code: purchase_code)
-      new(data) if data
-    end
-
-    def self.by_page(page_id)
-      DB[:catalog_items].filter(catalog_page_id: page_id).map {|data| new(data) }
     end
 
   end

@@ -24,29 +24,6 @@ module Retro
       @guest == 1
     end
 
-    def self.find_by_type_id(type_id)
-      type_data = db.first(:id => type_id)
-      new(type_data) if type_data
-    end
-
-    def self.find_by_model(model)
-      data = db.first(model: model)
-      if data
-        room_type = new(data)
-        if block_given?
-          yield room_type
-        else
-          room_type
-        end
-      end
-    end
-
-    private
-
-    def self.db
-      DB[:room_types]
-    end
-
   end
 
 end

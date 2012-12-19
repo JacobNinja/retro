@@ -14,11 +14,6 @@ module Retro
       @flags = opts[:flags] || ""
     end
 
-    def self.find_by_id(id)
-      data = DB[:furni_definitions].first(:id => id)
-      new(data) if data
-    end
-
     module Flags
 
       def wall_item?

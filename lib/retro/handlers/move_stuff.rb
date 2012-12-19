@@ -4,28 +4,28 @@ module Retro
     class MoveStuff < Handler
 
       def call
-        id, x, y, rotation = data.rest.split(" ")
-        Item.find_by_id(id) do |item|
-          item.set_position(user.current_room.id, x, y, rotation)
-          [
-              Client::Message.new("A_", floor_response(item, x, y, rotation)),
-              Client::MessageFactory.heightmap(user.current_room),
-          ]
-        end
+        id, x, y, rotation = data.rest.split(" ").map(&:to_i)
+        item = RoomManager.new(user.current_room).move(id.to_i, x, y, rotation)
+        return nil unless item
+
+        [
+          Client::Message.new("A_", floor_response(item)),
+          Client::MessageFactory.heightmap(user.current_room),
+        ]
       end
 
-      def floor_response(item, x, y, rotation, z=0)
+      def floor_response(item)
         [
           item.id,
           2.chr,
           item.sprite,
           2.chr,
-          Encoding::VL64.encode(x.to_i),
-          Encoding::VL64.encode(y.to_i),
+          Encoding::VL64.encode(item.x),
+          Encoding::VL64.encode(item.y),
           Encoding::VL64.encode(item.width),
           Encoding::VL64.encode(item.length),
-          Encoding::VL64.encode(rotation.to_i),
-          z,
+          Encoding::VL64.encode(item.rotation),
+          item.z,
           2.chr,
           item.col,
           2.chr,

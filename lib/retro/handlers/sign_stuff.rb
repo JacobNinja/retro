@@ -6,13 +6,14 @@ module Retro
       def call
         item_id = data.pop_b64!
         sign_data = data.pop_b64!
-        Item.find_by_id(item_id) do |item|
-          item.update_furni_var(sign_data)
-          [
-              Client::Message.new("AX", sign_item_response(item, sign_data)),
-              Client::MessageFactory.heightmap(user.current_room)
-          ]
-        end
+        item = ItemManager.find(item_id)
+        return nil unless item
+
+        ItemManager.sign(item.id, sign_data)
+        [
+            Client::Message.new("AX", sign_item_response(item, sign_data)),
+            Client::MessageFactory.heightmap(user.current_room)
+        ]
       end
 
       def sign_item_response(item, sign_data)

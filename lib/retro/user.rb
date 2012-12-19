@@ -2,28 +2,15 @@ module Retro
 
   class UserState
 
+    STATES = {
+        dance: -> { "dance" },
+        wave: -> { "wave" },
+        rights: -> { "flatctrl" },
+        move: -> x, y, z { "mv #{x},#{y},#{z}" }
+    }
+
     def initialize
-      @states = []
-    end
-
-    def dance
-      @states << "dance" unless @states.include? "dance"
-    end
-
-    def dance!
-      @states.delete("dance")
-    end
-
-    def wave
-      @states << "wave" unless @states.include? "wave"
-    end
-
-    def wave!
-      @states.delete("wave")
-    end
-
-    def add_rights
-      @states << "flatctrl" unless @states.include? "flatctrl"
+      @states = {}
     end
 
     def clear
@@ -31,66 +18,44 @@ module Retro
     end
 
     def build
-      @states.inject("") do |status, state|
+      @states.values.inject("") do |status, state|
         status + "/#{state}"
       end
+    end
+
+    STATES.each do |(state, proc)|
+      define_method(state) {|*args| @states.merge!(state => proc.call(*args)) }
+      define_method(:"#{state}!") { @states.delete(state) }
+      define_method(:"#{state}?") { @states.has_key?(state) }
     end
 
   end
 
   class User
 
-    attr_accessor :current_room, :x, :y, :z, :body_direction, :head_direction, :current_room_id
-    attr_reader :name, :figure, :sex, :mission, :ph_tickets, :photo_film, :direct_mail, :id, :states
+    extend Attrs
+
+    attr :id, :name, :figure, :sex, :mission, :ph_tickets, :photo_film, :direct_mail, :x, :y, :z
+    attr_accessor :body_direction, :head_direction, :current_room_id, :current_room
+    attr_reader :states
+    attr_writer :x, :y, :z
 
     def initialize(opts={})
-      @name = opts[:name]
-      @figure = opts[:figure]
-      @sex = opts[:sex]
-      @custom_data = opts[:mission]
+      @opts = opts
       @ph_tickets = opts[:ph_tickets] || 0
       @photo_film = opts[:photo_film] || 0
       @direct_mail = opts[:direct_mail] || 0
-      @id = opts[:id]
-      @states = UserState.new
       @body_direction = 2
       @head_direction = 2
-    end
-
-    def greeting
-      Client::Message.new(:greeting)
+      @states = UserState.new
     end
 
     def rooms
-      Room.owned_by(self.id)
+      RoomManager.owned_by(self)
     end
 
-    def leave_room
-      @current_room, @x, @y, @z, @body_direction, @head_direction, @current_room_id = nil
-      states.clear
-    end
-
-    def enter_room(room, user_room_id)
-      @current_room = room
-      @current_room_id = user_room_id
-      states.add_rights if room.owned_by?(self)
-    end
-
-    def update(attrs_as_hash)
-      DB[:users].where(:id => self.id).update(attrs_as_hash)
-      attrs_as_hash.each do |key, value|
-        instance_variable_set("@#{key}", value)
-      end
-    end
-
-    def self.authenticate(username, password)
-      data = DB[:users].first(name: username, password: password)
-      User.new(data) if data
-    end
-
-    def self.find_by_id(id)
-      data = DB[:users].first(id: id)
-      new(data) if data
+    def custom_data
+      self.mission
     end
 
   end

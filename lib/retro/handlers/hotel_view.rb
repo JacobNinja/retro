@@ -5,7 +5,7 @@ module Retro
 
       def call
         room_id = user.current_room_id
-        user.leave_room
+        UserManager.new(user).leave
         Client::Message.new("@]", room_id)
       end
 

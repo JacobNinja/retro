@@ -16,8 +16,8 @@ module Retro
               user_update_hash[:mission] = data.pop_b64!
           end
         end
-        user.update(user_update_hash)
-        Client::MessageFactory.user_details(user)
+        UserManager.update(user.id, user_update_hash)
+        Client::MessageFactory.user_details(user.update(user_update_hash))
       end
 
     end

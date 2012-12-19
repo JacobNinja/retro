@@ -26,6 +26,10 @@ module Retro
         @session.user
       end
 
+      def user_manager
+        @user_manager ||= UserManager.new(user)
+      end
+
     end
 
   end

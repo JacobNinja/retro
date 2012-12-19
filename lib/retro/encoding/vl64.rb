@@ -3,6 +3,7 @@ module Retro
     class VL64
 
       def self.encode(int)
+        int = int.to_i
         negative_mask = (int >= 0) ? 0 : 4
         result = [64 + (int & 3)]
         i = int.abs >> 2

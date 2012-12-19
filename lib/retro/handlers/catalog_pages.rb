@@ -5,7 +5,7 @@ module Retro
 
       def call
         response = Client::Message.new("A~")
-        CatalogPage.all.each do |catalog_page|
+        CatalogPageManager.all.each do |catalog_page|
           response.add page_response(catalog_page)
         end
         response

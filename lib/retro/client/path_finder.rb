@@ -4,6 +4,7 @@ module Retro
 
     def initialize(heightmap)
       @heightmap = heightmap
+      @closed = []
     end
 
     def directions(start_x, start_y, end_x, end_y)
@@ -14,16 +15,16 @@ module Retro
       end
     end
 
-    def route_to(start_x, start_y, end_x, end_y, path=[], last_routes=[])
+    def route_to(start_x, start_y, end_x, end_y, path=[])
       possible_routes = sorted_routes(start_x, start_y, end_x, end_y)
       if r = possible_routes.find {|route| route == [end_x, end_y]}
-        return path + [[*r, @heightmap.new_item_height(*r)]]
+        return path + [[*r]]
       else
         possible_routes.each do |(possible_x, possible_y)|
-          next if last_routes.include? [possible_x, possible_y]
-          new_path = path + [[possible_x, possible_y, @heightmap.new_item_height(possible_x, possible_y)]]
-          used_routes = (last_routes + possible_routes).uniq
-          new_route = route_to(possible_x, possible_y, end_x, end_y, new_path, used_routes)
+          next if @closed.include? [possible_x, possible_y] || path.include?([possible_x, possible_y])
+          new_path = path + [[possible_x, possible_y]]
+          @closed << [possible_x, possible_y] unless @closed.include?([possible_x, possible_y])
+          new_route = route_to(possible_x, possible_y, end_x, end_y, new_path)
           return new_route if new_route
         end
       end

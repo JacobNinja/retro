@@ -1,8 +1,15 @@
 source :rubygems
 
 gem 'eventmachine'
-gem 'sqlite3'
 gem 'sequel'
+
+platforms :ruby do
+  gem 'sqlite3'
+end
+
+platforms :jruby do
+  gem 'jdbc-sqlite3'
+end
 
 group :test do
   gem 'test-unit'

@@ -72,36 +72,4 @@ class HeightmapTest < Test::Unit::TestCase
     assert_true sut.overlay(item).move_to?(0, 0)
   end
 
-  test "annotate returns grid with step numbers" do
-    expected = [[3, 3, 3, 3],
-                [3, 2, 2, 2],
-                [3, 2, 1, 1],
-                [3, 2, 1, 0]]
-    heightmap = "0000|0000|0000|0000"
-    new_sut = Retro::Client::Heightmap.new(heightmap)
-    assert_equal expected, new_sut.annotate([0, 0], [[3, 3]])
-  end
-
-
-  #test "annotate is slow" do
-  #  heightmap = "xxxx00000000|xxxxxxxxxxxx|xxxxxxxxxxxx|xxxxxxxxxxxx|xxxx00000000|xxxx00000000|xxxx00000000|xxxxxxxxxxxx"
-  #  sut = Retro::Client::Heightmap.new(heightmap)
-  #  p sut.annotate([6, 5], [[11, 5]])
-  #end
-
-  #test "annotate is slow" do
-  #  heightmap = "xx00000000|xx00000000|xx00000000|xx00000000|xx00000000|xx00000000|xx00000000|xxxxxxxxxx"
-  #  sut = Retro::Client::Heightmap.new(heightmap)
-  #  sut.annotate([3, 3], [[9, 5]]).each do |row|
-  #    p row
-  #  end
-  #end
-  #
-  #test "directions returns best route" do
-  #  p sut.directions([0, 0], [3, 3]).to_a
-    #heightmap = "xxxx00000000|xxxxxxxxxxxx|xxxxxxxxxxxx|xxxxxxxxxxxx|xxxxxxxxxxxx|xxxxxxxxxxxx|xxxxxxxxxxxx|xxxxxxxxxxxx"
-    #sut = Retro::Client::Heightmap.new(heightmap)
-    #p sut.directions([6, 5], [11, 5]).to_a
-  #end
-
 end

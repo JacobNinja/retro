@@ -6,7 +6,7 @@ class PathFinderTest < Test::Unit::TestCase
     heightmap_data = "0000|0000|0000|0000"
     heightmap = Retro::Client::Heightmap.new(heightmap_data)
     sut = Retro::PathFinder.new(heightmap)
-    assert_equal [[1, 1, 0], [2, 2, 0], [3, 3, 0]], sut.directions(0, 0, 3, 3).to_a
+    assert_equal [[1, 1], [2, 2], [3, 3]], sut.directions(0, 0, 3, 3).to_a
   end
 
   test "directions move to blocked area" do

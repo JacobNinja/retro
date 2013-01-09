@@ -30,6 +30,7 @@ module Retro
 
       Enumerator.new do |yielder|
         Retro::PathFinder.new(heightmap).directions(@user.x, @user.y, x, y).each do |(x, y, z)|
+          z ||= 0
           @user.states.move(x, y, z)
           yielder << @user
           @user.x = x

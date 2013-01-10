@@ -34,6 +34,7 @@ module Retro
           74 => SignStuff, # AJ
           75 => Move, # AK
           79 => LookTo, # AO
+          80 => CarryDrink, # AP
           88 => Stop, # AX
           90 => PlaceStuff, # AZ
           93 => Dance, # A]

@@ -6,7 +6,8 @@ module Retro
         dance: -> { "dance" },
         wave: -> { "wave" },
         rights: -> { "flatctrl" },
-        move: -> x, y, z { "mv #{x},#{y},#{z}" }
+        move: -> x, y, z { "mv #{x},#{y},#{z}" },
+        drink: -> drink { "carryd #{drink}" },
     }
 
     def initialize

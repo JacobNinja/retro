@@ -4,7 +4,7 @@ module Retro
     class Wave < Handler
 
       def call
-        Client::DurationMessage.new(wave_packet_enum)
+        Client::DurationMessage.new(wave_packet_enum) unless user.states.wave?
       end
 
       def wave_packet_enum

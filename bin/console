@@ -1,0 +1,7 @@
+#!/usr/bin/env ruby --1.9
+
+require 'irb'
+require File.expand_path('./../../lib/retro', __FILE__)
+require File.expand_path('./../../database/connection', __FILE__)
+
+IRB.start

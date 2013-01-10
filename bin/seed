@@ -1,0 +1,3 @@
+#! /usr/bin/env sh
+
+JRUBY_OPTS=--1.9 ruby database/seed.rb

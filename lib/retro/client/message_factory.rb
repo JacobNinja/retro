@@ -12,7 +12,7 @@ module Retro
           z = user.z
           head_direction = user.head_direction
           body_direction = user.body_direction
-          Client::Message.new("@b", "#{user.current_room_id} #{x},#{y},#{z},#{body_direction},#{head_direction}#{user.states.build}#{13.chr}")
+          Client::Message.new("@b", "#{user.current_room_id} #{x},#{y},#{z},#{head_direction},#{body_direction}#{user.states.build}#{13.chr}")
         end
 
         def user_details(user)

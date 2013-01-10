@@ -8,6 +8,7 @@ module Retro
         rights: -> { "flatctrl" },
         move: -> x, y, z { "mv #{x},#{y},#{z}" },
         drink: -> drink { "carryd #{drink}" },
+        sit: -> z { "sit #{z.to_f}" }
     }
 
     def initialize

@@ -3,7 +3,7 @@ module Retro
   class FurniDefinition
     extend Attrs
 
-    ATTRIBUTES = [:hand_type, :sprite, :width, :length, :col, :height, :flags, :var_type]
+    ATTRIBUTES = [:hand_type, :sprite, :width, :length, :col, :height, :flags, :var_type, :action_height]
 
     attr_reader :id
     attr *ATTRIBUTES

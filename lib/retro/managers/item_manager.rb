@@ -4,8 +4,12 @@ module Retro
 
     extend Query
 
-    def self.create(user, furni_definition)
-      super(user_id: user.id, furni_definition_id: furni_definition.id)
+    def self.create(user, furni_definition, extras={})
+      super(extras.merge(user_id: user.id, furni_definition_id: furni_definition.id))
+    end
+
+    def self.delete(item)
+      super(item.id)
     end
 
     def self.pickup(id)

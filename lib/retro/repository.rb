@@ -24,6 +24,10 @@ module Retro
       db.filter(attrs).map {|data| @klass.new(data) }
     end
 
+    def delete(id)
+      db.filter(id: id).delete
+    end
+
     def all
       db.all.map {|data| @klass.new(data) }
     end

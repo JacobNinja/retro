@@ -10,6 +10,8 @@ Sequel.migration do
       Integer :category_id
       Integer :type_id
       String :status
+      Integer :floor
+      Integer :wallpaper
     end
 
   end

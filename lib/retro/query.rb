@@ -18,6 +18,10 @@ module Retro
       repository.create(attrs)
     end
 
+    def delete(id)
+      repository.delete(id)
+    end
+
     def all
       repository.all
     end

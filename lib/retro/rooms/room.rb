@@ -5,7 +5,7 @@ module Retro
   class Room
     extend Forwardable
 
-    attr_reader :id, :name, :owner_id, :description, :status
+    attr_reader :id, :name, :owner_id, :description, :status, :floor, :wallpaper
 
     delegate [:max_guests, :ccts, :model, :start_x, :start_y, :start_z] => :type
 
@@ -18,6 +18,8 @@ module Retro
       @status = opts[:status]
       @type = opts[:type]
       @items = opts[:items]
+      @floor = opts[:floor] || 0
+      @wallpaper = opts[:wallpaper] || 0
     end
 
     def type

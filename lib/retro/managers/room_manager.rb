@@ -12,6 +12,14 @@ module Retro
       update(id, category_id: category.id)
     end
 
+    def self.update_wall(room, wallpaper)
+      update(room.id, wallpaper: wallpaper)
+    end
+
+    def self.update_floor(room, floor)
+      update(room.id, floor: floor)
+    end
+
     def self.owned_by(user)
       filter(owner_id: user.id)
     end

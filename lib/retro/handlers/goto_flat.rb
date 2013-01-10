@@ -12,8 +12,8 @@ module Retro
         [
             Client::Message.new("Bf", "about:blank"),
             Client::Message.new("AE", room.model),
-            Client::Message.new("@n", "wallpaper/0"),
-            Client::Message.new("@n", "floor/0"),
+            Client::Message.new("@n", "wallpaper/#{room.wallpaper}"),
+            Client::Message.new("@n", "floor/#{room.floor}"),
         ]
       end
 

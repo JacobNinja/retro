@@ -34,6 +34,12 @@ hsh["CatalogueItems"].each do |(id, furni_type, page_id, cost, purchase_code)|
   DB[:catalog_items].insert(furni_definition_id: furni_definition_id, catalog_page_id: catalog_pages[page_id], cost: cost, purchase_code: purchase_code)
 end
 
+wallpaper_furni_id = DB[:furni_definitions].first(sprite: "wallpaper")[:id]
+floor_furni_id = DB[:furni_definitions].first(sprite: "floor")[:id]
+spaces_catalog_page_id = DB[:catalog_pages].first(name: "cat_spaces")[:id]
+DB[:catalog_items].insert(furni_definition_id: wallpaper_furni_id, catalog_page_id: spaces_catalog_page_id, cost: 0, purchase_code: "special_wallpaper")
+DB[:catalog_items].insert(furni_definition_id: floor_furni_id, catalog_page_id: spaces_catalog_page_id, cost: 0, purchase_code: "special_floor")
+
 hsh["RoomTypes"].each do |(id, friendly_name, model, heightmap, start_x, start_y, start_z, guest, _, ccts, user_type, max_ascend, max_descend)|
   DB[:room_types].insert(name: friendly_name, heightmap: heightmap, start_x: start_x, start_y: start_y, start_z: start_z, guest: guest, ccts: ccts, user_type: user_type, max_ascend: max_ascend, max_descend: max_descend, model: model)
 end
@@ -50,7 +56,7 @@ user_id = DB[:users].insert(name: "test", password: "123", figure: "800011900128
 #public_category_id = DB[:room_categories].insert(id: 3, type: 0, name: "Public Categories", parent: 0)
 #private_category_id = DB[:room_categories].insert(id: 4, type: 2, name: "Private Categories", parent: 0)
 #DB[:room_categories].insert(type: 2, name: "No Category", parent: private_category_id)
-outside_category_id = DB[:room_categories].first(name: "Staff Recommended Rooms")[:id]
+staff_category_id = DB[:room_categories].first(name: "Staff Recommended Rooms")[:id]
 trade_room_category_id = DB[:room_categories].first(name: "Trade Rooms")[:id]
 
 ## Create a new room
@@ -58,8 +64,5 @@ model_a_id = DB[:room_types].first(:model => "model_a")[:id]
 my_room_id = DB[:rooms].insert(name: "test", description: "test", category_id: trade_room_category_id, type_id: model_a_id, status: 0, owner_id: user_id)
 
 welcome_id = DB[:room_types].first(model: "newbie_lobby")[:id]
-welcome_room_id = DB[:rooms].insert(name: "Welcome lounge", description: "test", category_id: outside_category_id, type_id: welcome_id, status: 0)
+welcome_room_id = DB[:rooms].insert(name: "Welcome lounge", description: "test", category_id: staff_category_id, type_id: welcome_id, status: 0)
 
-
-## Create some items for user
-#DB[:items].insert(user_id: user_id, furni_definition_id: furni_id)

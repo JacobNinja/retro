@@ -38,15 +38,20 @@ hsh["RoomTypes"].each do |(id, friendly_name, model, heightmap, start_x, start_y
   DB[:room_types].insert(name: friendly_name, heightmap: heightmap, start_x: start_x, start_y: start_y, start_z: start_z, guest: guest, ccts: ccts, user_type: user_type, max_ascend: max_ascend, max_descend: max_descend, model: model)
 end
 
+hsh["RoomCategories"].each do |(id, name, parent_id, type, can_trade, visible, player_category, order, system_cat)|
+  DB[:room_categories].insert(id: id, name: name, parent: parent_id, type: type)
+end
+
+
 ## USERS
 user_id = DB[:users].insert(name: "test", password: "123", figure: "8000119001280152950125516", sex: "M", mission: "mission")
 
 ## CATEGORIES
-public_category_id = DB[:room_categories].insert(id: 3, type: 0, name: "Public Categories", parent: 0)
-private_category_id = DB[:room_categories].insert(id: 4, type: 2, name: "Private Categories", parent: 0)
-DB[:room_categories].insert(type: 2, name: "No Category", parent: private_category_id)
-outside_category_id = DB[:room_categories].insert(type: 0, name: "Outside Spaces", parent: public_category_id)
-trade_room_category_id = DB[:room_categories].insert(type: 2, name: "Trade Rooms", parent: private_category_id)
+#public_category_id = DB[:room_categories].insert(id: 3, type: 0, name: "Public Categories", parent: 0)
+#private_category_id = DB[:room_categories].insert(id: 4, type: 2, name: "Private Categories", parent: 0)
+#DB[:room_categories].insert(type: 2, name: "No Category", parent: private_category_id)
+outside_category_id = DB[:room_categories].first(name: "Staff Recommended Rooms")[:id]
+trade_room_category_id = DB[:room_categories].first(name: "Trade Rooms")[:id]
 
 ## Create a new room
 model_a_id = DB[:room_types].first(:model => "model_a")[:id]

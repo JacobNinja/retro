@@ -27,8 +27,8 @@ module Retro
           Encoding::VL64.encode(category.type),
           category.name,
           2.chr,
-          Encoding::VL64.encode(0),
-          Encoding::VL64.encode(10000),
+          Encoding::VL64.encode(1),
+          Encoding::VL64.encode(100),
           Encoding::VL64.encode(category.parent || 0),
         ]
         partial_response << Encoding::VL64.encode(category.rooms.count) if category.guest?
@@ -54,7 +54,7 @@ module Retro
       def public_room_response(room, category_id)
         [
           Encoding::VL64.encode(room.id), # room id
-          Encoding::VL64.encode(1), # room id
+          Encoding::VL64.encode(1),
           room.name,
           2.chr,
           Encoding::VL64.encode(10), # current users
@@ -63,7 +63,7 @@ module Retro
           room.description,
           2.chr,
           Encoding::VL64.encode(room.id), # room id
-          Encoding::VL64.encode(0),
+          Encoding::VL64.encode(room.id),
           room.ccts,
           2.chr,
           Encoding::VL64.encode(0),

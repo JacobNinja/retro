@@ -8,7 +8,7 @@ module Retro
         room = RoomManager.find(room_id)
         return nil unless room
 
-        UserManager.new(user).enter(room, 0)
+        user_manager.enter(room, 0)
         [
             Client::Message.new("Bf", "about:blank"),
             Client::Message.new("AE", room.model),

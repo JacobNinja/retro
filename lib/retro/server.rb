@@ -55,6 +55,7 @@ module Retro
     def self.run!(port=DEFAULT_PORT)
       EventMachine::run do
         EventMachine::start_server 'localhost', port, Reactor
+        puts "Running server on port #{port}"
       end
     end
 

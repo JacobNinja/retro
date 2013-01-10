@@ -66,7 +66,7 @@ module Retro
     end
 
     def move_to?
-      self.sit? || self.lay? || self.stand? || self.open?
+      self.sit? || self.lay? || self.stand? || self.open? || self.path?
     end
 
   end

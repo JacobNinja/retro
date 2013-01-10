@@ -52,9 +52,8 @@ module Retro
       end
 
       def neighbors(x, y)
-        surrounding(x, y).reject do |(x, y)|
-          top_item = top_item_at(x, y)
-          outside_grid?(x, y) || blocked?(x, y) || (top_item && !top_item.stand?)
+        surrounding(x, y).reject do |(neighbor_x, neighbor_y)|
+          outside_grid?(neighbor_x, neighbor_y)
         end
       end
 
@@ -74,13 +73,22 @@ module Retro
         x < 0 || y < 0 || tile.nil? || tile == OFF_GRID
       end
 
+      def move_through?(x, y)
+        item = top_item_at(x, y)
+        valid_tile?(x, y) && (item.nil? || item.path?)
+      end
+
       def blocked?(x, y, item=nil)
         tile_blocked_status?(x, y) || !movable_top_item_at?(x, y)
       end
 
       def move_to?(x, y)
         item = top_item_at(x, y)
-        !tile_blocked_status?(x, y) && (item.nil? || item.sit? || item.lay? || item.stand?)
+        valid_tile?(x, y) && (item.nil? || item.move_to?)
+      end
+
+      def valid_tile?(x, y)
+        !tile_blocked_status?(x, y) && !outside_grid?(x, y)
       end
 
       def top_item_at(x, y)
